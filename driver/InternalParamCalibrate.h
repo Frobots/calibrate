@@ -20,10 +20,11 @@ class InternalParamCalibrate {
   std::vector<cv::Mat> tvecs_mat_;
   double repeat_err_;
   int32_t StartCalibrate();
+  bool FindCornerImage(cv::Mat image);
   InternalParamCalibrate() {
     image_count_ = 12;
-    board_size_ = cv::Size(8,6);
-    square_size_ = cv::Size(10,10);
+    board_size_ = cv::Size(11,8);
+    square_size_ = cv::Size(30,30);
     camera_matrix_ = cv::Mat(3,3,CV_32FC1,cv::Scalar::all(0));
     std::ifstream infile("./config/CameraMatrix.txt");
     if (!infile.is_open()) {

@@ -8,6 +8,15 @@
 #include "ExternalParamCalibrate.h"
 
 /**
+  * @brief     param of user,input to grab image thread
+  * 
+  */ 
+typedef struct PUser {
+  cv::Mat image_;
+  void *handle_;
+}PUser;
+
+/**
   * @brief     this class represents for the camera
   * @details   camera feature : open / close / grab / set exposure time
   * 
@@ -23,6 +32,10 @@ class Camera {
   cv::Point3f Pixel2Camera(cv::Point2f p_p); 
   cv::Point3f Camera2World(cv::Point3f p_c);
   cv::Point3f Pixel2World(cv::Point2f p_p);
+ private:
+  void *handle_;
+  cv::Mat image_;
+  PUser p_user;
 }; // Camera
 
 

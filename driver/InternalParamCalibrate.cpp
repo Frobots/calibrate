@@ -15,6 +15,28 @@
 #include "InternalParamCalibrate.h"
 
 /**
+  * @brief      find the corner from the image
+  * @return     true:success,fail:fail
+  */ 
+bool InternalParamCalibrate::FindCornerImage(cv::Mat image) {
+  cv::Mat gray_image;
+  cv::cvtColor(image,gray_image,CV_BGR2GRAY);
+  std::vector<cv::Point2f> image_points_buf;
+  static unsigned int count = 1; 
+  if (!cv::findChessboardCorners(gray_image,board_size_,image_points_buf)) {
+    return false;
+  } else {
+    cv::find4QuadCornerSubpix(gray_image,image_points_buf,cv::Size(5,5));
+    std::string file_name = "./images/Image";
+    file_name.append(std::to_string(count).append(".jpg"));
+    cv::imwrite(file_name,image);
+    cv::drawChessboardCorners(image,board_size_,image_points_buf,true);
+    count++;
+    return true;
+  }
+}
+
+/**
   * @brief      Collect the image points(corners)
   * @return     0:success,-1:fail
   */ 
@@ -32,7 +54,7 @@ int32_t InternalParamCalibrate::CollectImagePoints() {
       std::cout << "image width:" << image_size_.width << std::endl;
       std::cout << "image height:" << image_size_.height << std::endl;
     }
-    cv::cvtColor(image,gray_image,CV_RGB2GRAY);
+    cv::cvtColor(image,gray_image,CV_BGR2GRAY);
     std::vector<cv::Point2f> image_points_buf;
     if (!cv::findChessboardCorners(gray_image,board_size_,image_points_buf)) {
       std::cout << "fail to find the chess board corners" << std::endl;
@@ -43,8 +65,8 @@ int32_t InternalParamCalibrate::CollectImagePoints() {
       cv::drawChessboardCorners(image,board_size_,image_points_buf,true);
     }
     image_points_seq_.push_back(image_points_buf);
-    cv::namedWindow("image",cv::WINDOW_NORMAL);
-    cv::imshow("image",image);
+    cv::namedWindow("show",cv::WINDOW_NORMAL);
+    cv::imshow("show",image);
     cv::waitKey(500);
     count++;
   }
@@ -80,7 +102,7 @@ int32_t InternalParamCalibrate::CollectObjectPoints() {
 int32_t InternalParamCalibrate::StartCalibrate() {
   CollectImagePoints();
   CollectObjectPoints();
-  repeat_err_ = cv::calibrateCamera(object_points_seq_,image_points_seq_,image_size_,camera_matrix_,dist_coeffs_,rvecs_mat_,tvecs_mat_);
+  repeat_err_ = cv::calibrateCamera(object_points_seq_,image_points_seq_,image_size_,camera_matrix_,dist_coeffs_,rvecs_mat_,tvecs_mat_) / image_count_;
   std::cout << "camera_matrix_:" << camera_matrix_ << std::endl;
   std::cout << "dist_coeffs_:" << dist_coeffs_ << std::endl;
   std::cout << "repeat_err_:" << repeat_err_ << std::endl;

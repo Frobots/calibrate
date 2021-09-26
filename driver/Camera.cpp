@@ -15,20 +15,152 @@
  ***************************************************************/
 
 #include "Camera.h"
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include "MvCameraControl.h"
+
+bool start_grab = false;
+bool is_grab_finished = false;
+
+/**
+  * @brief      the thread for grab image
+  * @param      p_user param of user,input to grab image thread
+  */ 
+void* GrabThread(void *p_user) {
+  int n_ret = MV_OK;
+  // ch:获取数据包大小 | en:Get payload size
+  MVCC_INTVALUE stParam;
+  memset(&stParam, 0, sizeof(MVCC_INTVALUE));
+  n_ret = MV_CC_GetIntValue(((PUser*)p_user)->handle_, "PayloadSize", &stParam);
+  if (MV_OK != n_ret) {
+    printf("Get PayloadSize fail! n_ret [0x%x]\n", n_ret);
+    return NULL;
+  }
+
+  MV_FRAME_OUT_INFO_EX stImageInfo = {0};
+  memset(&stImageInfo, 0, sizeof(MV_FRAME_OUT_INFO_EX));
+  unsigned char * pData = (unsigned char *)malloc(sizeof(unsigned char) * stParam.nCurValue);
+  if (NULL == pData) {
+    return NULL;
+  }
+  unsigned int nDataSize = stParam.nCurValue;
+  while(true) {
+    if(start_grab == false) {
+      continue;
+    }
+    is_grab_finished = false;
+    n_ret = MV_CC_GetOneFrameTimeout(((PUser*)p_user)->handle_, pData, nDataSize, &stImageInfo, 1000);
+    if (n_ret == MV_OK) {
+      ((PUser*)p_user)->image_ = cv::Mat(stImageInfo.nHeight,stImageInfo.nWidth,CV_8UC3,pData);
+    } else {
+      printf("No data[%x]\n", n_ret);
+      continue;
+    }
+    start_grab = false;
+    is_grab_finished = true;
+ }
+ free(pData);
+ return 0;
+}
+
+/**
+  * @brief      print device information
+  * @param      pstMVDevInfo the pointer of pstMVDevInfo
+  * @return     ture:print information success,false:the Pointer of pstMVDevInfo is NULL
+  */ 
+bool PrintDeviceInfo(MV_CC_DEVICE_INFO* pstMVDevInfo) {
+  if (NULL == pstMVDevInfo) {
+    printf("The Pointer of pstMVDevInfo is NULL!\n");
+    return false;
+  }
+  if (pstMVDevInfo->nTLayerType == MV_GIGE_DEVICE) {
+    int nIp1 = ((pstMVDevInfo->SpecialInfo.stGigEInfo.nCurrentIp & 0xff000000) >> 24);
+    int nIp2 = ((pstMVDevInfo->SpecialInfo.stGigEInfo.nCurrentIp & 0x00ff0000) >> 16);
+    int nIp3 = ((pstMVDevInfo->SpecialInfo.stGigEInfo.nCurrentIp & 0x0000ff00) >> 8);
+    int nIp4 = (pstMVDevInfo->SpecialInfo.stGigEInfo.nCurrentIp & 0x000000ff);
+
+    // ch:打印当前相机ip和用户自定义名字 | en:print current ip and user defined name
+    printf("Device Model Name: %s\n", pstMVDevInfo->SpecialInfo.stGigEInfo.chModelName);
+    printf("CurrentIp: %d.%d.%d.%d\n" , nIp1, nIp2, nIp3, nIp4);
+    printf("UserDefinedName: %s\n\n" , pstMVDevInfo->SpecialInfo.stGigEInfo.chUserDefinedName);
+  } else if (pstMVDevInfo->nTLayerType == MV_USB_DEVICE) {
+      printf("Device Model Name: %s\n", pstMVDevInfo->SpecialInfo.stUsb3VInfo.chModelName);
+      printf("UserDefinedName: %s\n\n", pstMVDevInfo->SpecialInfo.stUsb3VInfo.chUserDefinedName);
+  } else {
+      printf("Not support.\n");
+  }
+  return true;
+}
 
 /**
   * @brief      open the camera
   * @return     0:success,-1:fail
   */ 
-int Camera::Open() {
-  return 0;
-}
+int32_t Camera::Open() {
+  int32_t n_ret = MV_OK;
+  handle_ = NULL;
+  MV_CC_DEVICE_INFO_LIST stDeviceList;
+  MV_CC_DEVICE_INFO *pDeviceInfo;
+  memset(&stDeviceList, 0, sizeof(MV_CC_DEVICE_INFO_LIST));
+  // enum device
+  n_ret = MV_CC_EnumDevices(MV_GIGE_DEVICE | MV_USB_DEVICE, &stDeviceList);
+  if (MV_OK != n_ret) {
+    printf("MV_CC_EnumDevices fail! n_ret [%x]\n", n_ret);
+  }
+  if (stDeviceList.nDeviceNum > 0) {
+    pDeviceInfo = stDeviceList.pDeviceInfo[0];
+    if (NULL == pDeviceInfo) {
+        return -1;
+    } 
+  } 
 
-/**
-  * @brief      close the camera
-  * @return     0:success,-1:fail
-  */ 
-int Camera::Close() {
+  // 选择设备并创建句柄
+  // select device and create handle
+  n_ret = MV_CC_CreateHandle(&handle_, pDeviceInfo);
+  if (MV_OK != n_ret) {
+      printf("MV_CC_CreateHandle fail! n_ret [%x]\n", n_ret);
+      return -1;
+  }
+
+  // 打开设备
+  // open device
+  n_ret = MV_CC_OpenDevice(handle_);
+  if (MV_OK != n_ret) {
+      printf("MV_CC_OpenDevice fail! n_ret [%x]\n", n_ret);
+  }
+
+  // ch:探测网络最佳包大小(只对GigE相机有效) | en:Detection network optimal package size(It only works for the GigE camera)
+  if (stDeviceList.pDeviceInfo[0]->nTLayerType == MV_GIGE_DEVICE) {
+      int nPacketSize = MV_CC_GetOptimalPacketSize(handle_);
+      if (nPacketSize > 0) {
+          n_ret = MV_CC_SetIntValue(handle_,"GevSCPSPacketSize",nPacketSize);
+          if(n_ret != MV_OK) {
+              printf("Warning: Set Packet Size fail n_ret [0x%x]!\n", n_ret);
+          }
+      } else {
+          printf("Warning: Get Packet Size fail n_ret [0x%x]!\n", nPacketSize);
+      }
+  }
+
+  // 设置触发模式为off
+  // set trigger mode as off
+  n_ret = MV_CC_SetEnumValue(handle_, "TriggerMode", 0);
+  if (MV_OK != n_ret) {
+      printf("MV_CC_SetTriggerMode fail! n_ret [%x]\n", n_ret);
+  }
+
+  // start grab image
+  n_ret  = MV_CC_StartGrabbing(handle_);
+  if (MV_OK != n_ret) {
+    printf("MV_CC_StartGrabbing fail! n_ret_ [%x]\n", n_ret);
+  }
+  pthread_t nThreadID;
+  p_user.handle_ = handle_;
+  n_ret = pthread_create(&nThreadID, NULL, GrabThread, (void*)(&p_user));
+
   return 0;
 }
 
@@ -47,8 +179,39 @@ int Camera::SetExposureTime(double exposure_time) {
   * @return     image from camera / folder
   */ 
 cv::Mat Camera::Grab(bool is_online = true) {
-  cv::Mat image;
-  return image;
+  start_grab = true;
+  while (is_grab_finished != true);
+  cv::cvtColor(p_user.image_,image_,cv::COLOR_RGB2BGR);
+  is_grab_finished = false;
+  return image_;
+}
+
+/**
+  * @brief      close the camera
+  * @return     0:success,-1:fail
+  */ 
+int Camera::Close() {
+  // 停止取流
+  // end grab image
+  int32_t n_ret = MV_CC_StopGrabbing(handle_);
+  if (MV_OK != n_ret) {
+    printf("MV_CC_StopGrabbing fail! nRet [%x]\n", n_ret);
+  }
+
+  // 关闭设备
+  // close device
+  n_ret = MV_CC_CloseDevice(handle_);
+  if (MV_OK != n_ret) {
+    printf("MV_CC_CloseDevice fail! nRet [%x]\n", n_ret);
+  }
+
+  // 销毁句柄
+  // destroy handle
+  n_ret = MV_CC_DestroyHandle(handle_);
+  if (MV_OK != n_ret) {
+    printf("MV_CC_DestroyHandle fail! nRet [%x]\n", n_ret);
+  }
+  return 0;
 }
 
 /**
