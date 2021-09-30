@@ -73,14 +73,14 @@ int32_t ExternalParamCalibrate::StartCalibrate() {
   std::cout << "camera_matrix_:" << camera_matrix_ << std::endl;
   std::cout << "dist_coeffs_:" << dist_coeffs_ << std::endl;
   // input four points
-  image_points_.push_back(cv::Point2f(809.0f, 1655.0f));
-  image_points_.push_back(cv::Point2f(774.0f, 641.0f));
-  image_points_.push_back(cv::Point2f(1484.0f, 616.0f));
-  image_points_.push_back(cv::Point2f(1519.0f, 1631.0f));
-  object_points_.push_back(cv::Point3f(0.0f, 0.0f, 0.0f));  
-  object_points_.push_back(cv::Point3f(0.0f, 300.0f, 0.0f));  
-  object_points_.push_back(cv::Point3f(210.0f, 300.0f, 0.0f));  
-  object_points_.push_back(cv::Point3f(210.0f, 0.0f, 0.0f));    
+  image_points_.push_back(cv::Point2f(1536.0f, 1574.0f));
+  image_points_.push_back(cv::Point2f(1505.0f, 786.0f));
+  image_points_.push_back(cv::Point2f(1013.0f, 806.0f));
+  image_points_.push_back(cv::Point2f(1045.0f, 1593.0f));
+  object_points_.push_back(cv::Point3f(318.88f, 59.84f, 0.0f));  
+  object_points_.push_back(cv::Point3f(321.16f, -151.64f, 0.0f));  
+  object_points_.push_back(cv::Point3f(453.43f, -150.99f, 0.0f));  
+  object_points_.push_back(cv::Point3f(450.95f, 61.38f, 0.0f));    
   // Calculate camera pose
   cv::solvePnP(object_points_, image_points_, camera_matrix_, dist_coeffs_, rvec_, tvec_);
   cv::Rodrigues(rvec_, r_mat_);

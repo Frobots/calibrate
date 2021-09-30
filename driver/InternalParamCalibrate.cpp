@@ -60,10 +60,9 @@ int32_t InternalParamCalibrate::CollectImagePoints() {
       std::cout << "fail to find the chess board corners" << std::endl;
       count++;
       continue;
-    } else {
-      cv::find4QuadCornerSubpix(gray_image,image_points_buf,cv::Size(5,5));
-      cv::drawChessboardCorners(image,board_size_,image_points_buf,true);
     }
+    cv::find4QuadCornerSubpix(gray_image,image_points_buf,cv::Size(5,5));
+    cv::drawChessboardCorners(image,board_size_,image_points_buf,true);
     image_points_seq_.push_back(image_points_buf);
     cv::namedWindow("show",cv::WINDOW_NORMAL);
     cv::imshow("show",image);
@@ -81,11 +80,11 @@ int32_t InternalParamCalibrate::CollectObjectPoints() {
   int32_t i,j,k;
   for (i = 0; i < image_count_; i++) {
     std::vector<cv::Point3f> real_points_buf;
-    for (j = 0; j < board_size_.width; j++) {
-      for (k = 0; k < board_size_.height; k++) {
+    for (j = 0; j < board_size_.height; j++) {
+      for (k = 0; k < board_size_.width; k++) {
         cv::Point3f real_point;
-        real_point.x = j * square_size_.width;
-        real_point.y = k * square_size_.height;
+        real_point.x = k * square_size_.width;
+        real_point.y = j * square_size_.height;
         real_point.z = 0;
         real_points_buf.push_back(real_point);
       }
@@ -102,7 +101,7 @@ int32_t InternalParamCalibrate::CollectObjectPoints() {
 int32_t InternalParamCalibrate::StartCalibrate() {
   CollectImagePoints();
   CollectObjectPoints();
-  repeat_err_ = cv::calibrateCamera(object_points_seq_,image_points_seq_,image_size_,camera_matrix_,dist_coeffs_,rvecs_mat_,tvecs_mat_) / image_count_;
+  repeat_err_ = cv::calibrateCamera(object_points_seq_,image_points_seq_,image_size_,camera_matrix_,dist_coeffs_,rvecs_mat_,tvecs_mat_,0) / image_count_;
   std::cout << "camera_matrix_:" << camera_matrix_ << std::endl;
   std::cout << "dist_coeffs_:" << dist_coeffs_ << std::endl;
   std::cout << "repeat_err_:" << repeat_err_ << std::endl;

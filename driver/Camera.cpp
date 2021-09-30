@@ -220,24 +220,55 @@ int Camera::Close() {
   * @return     camera point
   */ 
 cv::Point3f Camera::Pixel2Camera(cv::Point2f p_p) {
-	cv::Mat p_p_q = (cv::Mat_<float>(3,1) << p_p.x,p_p.y,1);
-  cv::Mat r_mat_inv;
-  cv::Mat in_matrix_inv;
-  cv::Mat t = external_param_calibrate_.tvec_;
-  float cx = internal_param_calibrate_.camera_matrix_.at<float>(0,2);
-  float cy = internal_param_calibrate_.camera_matrix_.at<float>(1,2);
-  float fx = internal_param_calibrate_.camera_matrix_.at<float>(0,0);
-  float fy = internal_param_calibrate_.camera_matrix_.at<float>(1,1);
-  cv::invert(external_param_calibrate_.r_mat_, r_mat_inv, cv::DECOMP_SVD);
-  cv::invert(internal_param_calibrate_.camera_matrix_, in_matrix_inv,cv::DECOMP_SVD);
-	cv::Mat right_matrix = r_mat_inv * in_matrix_inv * p_p_q;
-	cv::Mat left_matrix = r_mat_inv * t;
-  double depth = left_matrix.at<float>(2,0) / right_matrix.at<float>(2,0);
-  cv::Point3f camera_p;
-  camera_p.x = (p_p.x - cx) * depth / fx;
-  camera_p.y = (p_p.y - cy) * depth / fy;
-  camera_p.z = depth;
-  return camera_p;
+  #if 1
+    cv::Mat p_p_q = (cv::Mat_<float>(3,1) << p_p.x,p_p.y,1);
+    cv::Mat r_mat_inv;
+    cv::Mat in_matrix_inv;
+    cv::Mat t = external_param_calibrate_.tvec_;
+    float cx = internal_param_calibrate_.camera_matrix_.at<float>(0,2);
+    float cy = internal_param_calibrate_.camera_matrix_.at<float>(1,2);
+    float fx = internal_param_calibrate_.camera_matrix_.at<float>(0,0);
+    float fy = internal_param_calibrate_.camera_matrix_.at<float>(1,1);
+    cv::invert(external_param_calibrate_.r_mat_, r_mat_inv, cv::DECOMP_SVD);
+    cv::invert(internal_param_calibrate_.camera_matrix_, in_matrix_inv,cv::DECOMP_SVD);
+    // std::cout << "camera_matrix_:" << internal_param_calibrate_.camera_matrix_ << std::endl;
+    // std::cout << "in_matrix_inv:" << in_matrix_inv << std::endl;
+    // std::cout << "r_mat_:" << external_param_calibrate_.r_mat_ << std::endl;
+    // std::cout << "r_mat_inv:" << r_mat_inv << std::endl;
+    // std::cout << "t:" << t << std::endl;
+    cv::Mat right_matrix = r_mat_inv * in_matrix_inv * p_p_q;
+    cv::Mat left_matrix = r_mat_inv * t;
+    double depth = left_matrix.at<float>(2,0) / right_matrix.at<float>(2,0);
+    cv::Point3f camera_p;
+    camera_p.x = (p_p.x - cx) * depth / fx;
+    camera_p.y = (p_p.y - cy) * depth / fy;
+    camera_p.z = depth;
+    return camera_p;
+  #else
+    cv::Mat k_mat = internal_param_calibrate_.camera_matrix_;
+    cv::Mat r_mat = external_param_calibrate_.r_mat_;
+    cv::Mat t = external_param_calibrate_.tvec_;
+    cv::Mat p_uv = (cv::Mat_<float>(3,1) << p_p.x,p_p.y,1);
+    cv::Mat p_c;
+    std::vector<cv::Point3f> object_points;
+    object_points.push_back(cv::Point3f(0.0f, 0.0f, 0.0f));  
+    object_points.push_back(cv::Point3f(0.0f, 300.0f, 0.0f));  
+    object_points.push_back(cv::Point3f(210.0f, 300.0f, 0.0f));  
+    object_points.push_back(cv::Point3f(210.0f, 0.0f, 0.0f));  
+    float sum_z = 0;
+    for (unsigned int i = 0; i < object_points.size(); i++) {
+      sum_z += object_points[i].x * r_mat.at<float>(2,0) + object_points[i].y * r_mat.at<float>(2,1) + object_points[i].z * r_mat.at<float>(2,2) + t.at<float>(2,0);
+    }
+    float zc = sum_z / object_points.size();
+    std::cout << "zc:" << zc << std::endl;
+    p_c = k_mat.inv() * p_uv * zc;
+    cv::Point3f camera_p;
+    camera_p.x = p_c.at<float>(0,0);
+    camera_p.y = p_c.at<float>(1,0);
+    camera_p.z = p_c.at<float>(2,0);
+    std::cout << "p_c" << p_c << std::endl;
+    return camera_p;
+  #endif
 }
 
 /**
