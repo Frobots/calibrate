@@ -1,0 +1,29 @@
+syntax = "proto3";
+package example;
+service FormatData {
+  rpc DoFormat(Request) returns (Response) {}
+}
+
+message Request {
+  bytes encoded_image = 1;
+  int32 width = 2;
+  int32 height = 3;
+}
+
+message Rbox {
+  float x = 1;
+  float y = 2;
+  float w = 3;
+  float h = 4;
+  float theta = 5;
+}
+
+message Object {
+  Rbox rbox = 1;
+  string class_name = 2;
+  float score = 3;
+}
+
+message Response {
+  repeated Object objects = 1;
+}

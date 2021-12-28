@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  targetNamespace="flex.gui"
+            elementFormDefault="qualified"
+            xmlns="flex.gui"
+            xmlns:mstns="flex.gui"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Root element -->
+  <xs:element name="flexData">
+    <xs:complexType>
+      <xs:all>
+        <xs:element name="control" type="type_control" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="status" type="type_status" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="dataExchange" type="type_dataExchange" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="notifications" type="type_notifications" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="programSync" type="type_programSync" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="constantData" type="type_constantData" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="operations" type="type_operations" minOccurs="0" maxOccurs="1"/>
+      </xs:all>
+      <xs:attribute name="version" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Generic type definitions -->
+  <xs:complexType name="type_empty">
+    <xs:complexContent>
+      <xs:restriction base="xs:anyType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="XYZrpy">
+    <xs:sequence>
+      <xs:element name="X" type="xs:double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="Y" type="xs:double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="Z" type="xs:double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="r" type="xs:double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="p" type="xs:double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="y" type="xs:double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="C" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:group name="FTPenable">
+    <xs:sequence>	
+      <xs:element name="enable" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="password" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:group name="FTPstatus">
+    <xs:sequence>	
+      <xs:element name="anonymous" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="connect" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="timeout" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="homedir" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="dirperm" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="loginmes" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="password" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:group>
+  
+  <xs:complexType name="type_shift">
+    <xs:group ref="XYZrpy"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_pose">
+    <xs:group ref="XYZrpy"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_ftpe">
+    <xs:group ref="FTPenable"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_ftps">
+    <xs:group ref="FTPstatus"/>
+  </xs:complexType>
+  
+  <!-- Level one elements -->
+  <xs:complexType name="type_control">
+    <xs:sequence>
+      <xs:element name="show" type="type_control_show" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="hide" type="type_empty" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="shutdown" type="type_control_shutdown" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="key" type="type_control_key" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="onDesk" type="type_control_onDesk" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type_status">
+    <xs:sequence>
+      <xs:element name="heartbeat" type="type_status_heartbeat" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="hidden" type="type_empty" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="visible" type="type_empty" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="shutdownComplete" type="type_empty" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="error" type="type_status_error" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type_dataExchange">
+    <xs:sequence>
+      <xs:element name="dataRequest" type="type_dataExchange_dataRequest" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="dataUpdate" type="type_dataExchange_dataUpdate" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="dataUpdateAck" type="type_dataExchange_dataUpdateAck" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type_notifications">
+    <xs:sequence>
+      <xs:element name="note" type="type_notifications_note" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type_programSync">
+    <xs:sequence>
+      <xs:element name="signal" type="type_programSync_signal" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="response" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="type_constantData">
+    <xs:sequence>
+      <xs:element name="request" type="type_constantData_request" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="response" type="type_constantData_response" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="update" type="type_constantData_update" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="updateResult" type="type_constantData_updateResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type_operations">
+    <xs:sequence>
+      <xs:element name="command" type="type_operations_command" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="commandResult" type="type_operations_commandResult" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!-- Second+ level -->
+  <!-- Node: flexData/control -->
+  <xs:complexType name="type_control_show">
+    <xs:attribute name="pageID" use="optional" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_control_shutdown">
+    <xs:attribute name="kill" use="optional" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_control_key">
+    <xs:attribute name="state" use="required" type="xs:boolean"/>
+    <xs:attribute name="keyID" use="optional" type="type_TPKeys"/>
+    <xs:attribute name="keyCode" use="optional" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_control_onDesk">
+    <xs:attribute name="mode" use="required" type="xs:integer"/>
+  </xs:complexType>
+
+  <!-- Node: flexData/status -->
+  <xs:complexType name="type_status_heartbeat">
+    <xs:attribute name="app" use="optional" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_status_error">
+    <xs:attribute name="errorID" use="required" type="xs:integer"/>
+    <xs:attribute name="context" use="optional" type="xs:string"/>
+  </xs:complexType>
+  
+  <!-- Node: flexData/dataExchange -->
+  <xs:complexType name="type_dataExchange_dataRequest">
+    <xs:sequence>
+      <xs:element name="data" type="type_dataExchange_dataRequest_data" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="type_dataExchange_dataRequest_data">
+    <xs:attribute name="unit" use="required" type="xs:integer"/>
+    <xs:attribute name="group" use="required" type="type_DataGroup"/>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="subid" use="required" type="xs:string"/>
+    <xs:attribute name="extid" use="optional" type="xs:integer" />
+    <xs:attribute name="count" use="optional" default="1" type="xs:positiveInteger" />
+    <xs:attribute name="push" use="optional" default="-1" type="xs:integer" />
+    <xs:attribute name="threshold" use="optional" default="0.5" type="xs:double" />
+    <xs:attribute name="priority" use="optional" default="5" type="xs:integer" />
+  </xs:complexType>
+  
+  <xs:complexType name="type_dataExchange_dataUpdate">
+    <xs:sequence>
+      <xs:element name="data" type="type_dataExchange_dataUpdate_data" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="seqid" use="optional" default="-1" type="xs:integer"/>
+  </xs:complexType>
+ 
+  <xs:complexType name="type_dataExchange_dataUpdate_data">
+    <xs:sequence>
+      <xs:element name="b" type="xs:boolean" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="i" type="xs:integer" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="r" type="xs:double" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="s" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ui" type="xs:unsignedInt" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="h" type="xs:hexBinary" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="sft" type="type_shift" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="pos" type="type_pose" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ftpe" type="type_ftpe" minOccurs="0" maxOccurs="unbounded"/>	  
+      <xs:element name="ftps" type="type_ftps" minOccurs="0" maxOccurs="unbounded"/>	  
+    </xs:sequence>
+    <xs:attribute name="unit" use="required" type="xs:integer"/>
+    <xs:attribute name="group" use="required" type="type_DataGroup"/>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="subid" use="required" type="xs:string"/>
+    <xs:attribute name="extid" use="optional" type="xs:integer" />
+    <xs:attribute name="count" use="optional" default="1" type="xs:positiveInteger" />
+  </xs:complexType>
+
+  <xs:complexType name="type_dataExchange_dataUpdateAck">
+    <xs:sequence>
+      <xs:element name="data" type="type_dataExchange_dataUpdateAck_data" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="seqid" use="optional" default="-1" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_dataExchange_dataUpdateAck_data">
+    <xs:attribute name="unit" use="required" type="xs:integer"/>
+    <xs:attribute name="group" use="required" type="type_DataGroup"/>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="subid" use="required" type="xs:string"/>
+    <xs:attribute name="extid" use="optional" type="xs:integer" />
+    <xs:attribute name="count" use="optional" default="1" type="xs:positiveInteger" />
+    <xs:attribute name="reason" use="required" type="type_dataUpdateAck_Reason" />
+  </xs:complexType>
+
+  <!-- Node: flexData/notifications -->
+  <xs:complexType name="type_notifications_note">
+    <xs:sequence>
+      <xs:element name="code" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="unit" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="mech" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="axis" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="program" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="line" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="message" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="content" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="measures" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="type" type="type_notifications_note_types" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Node: flexData/programSync -->
+  <xs:complexType name="type_programSync_signal">
+    <xs:sequence>
+      <xs:element name="unit" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="program" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="line" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="block" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Node: flexData/constantData -->
+  <xs:complexType name="type_constantData_request">
+    <xs:attribute name="filename" use="required" type="xs:string"/>
+    <xs:attribute name="section" use="required" type="xs:string"/>
+    <xs:attribute name="key" use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_constantData_response">
+    <xs:sequence>
+      <xs:element name="error" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="rangeMin" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="rangeMax" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="filename" use="required" type="xs:string"/>
+    <xs:attribute name="section" use="required" type="xs:string"/>
+    <xs:attribute name="key" use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_constantData_update">
+    <xs:sequence>
+      <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="filename" use="required" type="xs:string"/>
+    <xs:attribute name="section" use="required" type="xs:string"/>
+    <xs:attribute name="key" use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_constantData_updateResult">
+    <xs:sequence>
+      <xs:element name="result" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="filename" use="required" type="xs:string"/>
+    <xs:attribute name="section" use="required" type="xs:string"/>
+    <xs:attribute name="key" use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- Node: flexData/operations -->
+  <xs:complexType name="type_operations_command">
+    <xs:sequence>
+      <xs:element name="param" type="type_operations_command_param" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="sequid" use="required" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="type_operations_command_param">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+
+  <xs:complexType name="type_operations_commandResult">
+    <xs:sequence>
+      <xs:element name="result" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="resultText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="sequid" use="required" type="xs:integer"/>
+  </xs:complexType>
+  
+  <xs:simpleType name="type_TPKeys">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="btnXminus"/>
+      <xs:enumeration value="btnXplus"/>
+      <xs:enumeration value="btnRXminus"/>
+      <xs:enumeration value="btnRXplus"/>
+      <xs:enumeration value="btnCheckGo"/>
+      <xs:enumeration value="btnYminus"/>
+      <xs:enumeration value="btnYplus"/>
+      <xs:enumeration value="btnRYminus"/>
+      <xs:enumeration value="btnRYplus"/>
+      <xs:enumeration value="btnCheckBack"/>
+      <xs:enumeration value="btnZminus"/>
+      <xs:enumeration value="btnZplus"/>
+      <xs:enumeration value="btnRZminus"/>
+      <xs:enumeration value="btnRZplus"/>
+      <xs:enumeration value="btnRecord"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="type_dataUpdateAck_Reason">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="read_only"/>
+      <xs:enumeration value="mode_mismatch"/>
+      <xs:enumeration value="missing_data"/>
+      <xs:enumeration value="out_of_limit"/>
+      <xs:enumeration value="unit_invalid"/>
+      <xs:enumeration value="fatal_error"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="type_notifications_note_types">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="info"/>
+      <xs:enumeration value="warning"/>
+      <xs:enumeration value="error"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="type_DataGroup">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FixedIO"/>
+      <xs:enumeration value="Generic"/>
+      <xs:enumeration value="PLC"/>
+      <xs:enumeration value="Shift"/>
+      <xs:enumeration value="SPECIAL"/>
+      <xs:enumeration value="Pallet"/>
+      <xs:enumeration value="Pose"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+

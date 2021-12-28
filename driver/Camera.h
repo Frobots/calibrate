@@ -32,6 +32,7 @@ class Camera {
   cv::Point3f Pixel2Camera(cv::Point2f p_p); 
   cv::Point3f Camera2World(cv::Point3f p_c);
   cv::Point3f Pixel2World(cv::Point2f p_p);
+  float PixelAngle2World(float angle);
  private:
   void *handle_;
   cv::Mat image_;

@@ -303,3 +303,13 @@ cv::Point3f Camera::Camera2World(cv::Point3f p_c) {
 cv::Point3f Camera::Pixel2World(cv::Point2f p_p) {
   return Camera2World(Pixel2Camera(p_p));
 }
+
+/**
+  * @brief      transform the pixel angle to world angle 
+  * @param[in]  angle pixel angle
+  * @return     angle under world coordinate system
+  */ 
+float Camera::PixelAngle2World(float angle) {
+  angle += std::acos(external_param_calibrate_.r_mat_.at<float>(1,1));
+  return angle;
+}
