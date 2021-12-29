@@ -48,10 +48,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/paul/work/rvision
+CMAKE_SOURCE_DIR = /home/paul/work/calibrate
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/paul/work/rvision/build
+CMAKE_BINARY_DIR = /home/paul/work/calibrate/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/paul/work/rvision/build/CMakeFiles /home/paul/work/rvision/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/paul/work/calibrate/build/CMakeFiles /home/paul/work/calibrate/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/paul/work/rvision/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/paul/work/calibrate/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,287 +111,125 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named rvision
+# Target rules for targets named calibrate
 
 # Build rule for target.
-rvision: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rvision
-.PHONY : rvision
+calibrate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 calibrate
+.PHONY : calibrate
 
 # fast build rule for target.
-rvision/fast:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/build
-.PHONY : rvision/fast
+calibrate/fast:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/build
+.PHONY : calibrate/fast
 
-driver/Camera.o: driver/Camera.cpp.o
+Camera.o: Camera.cpp.o
 
-.PHONY : driver/Camera.o
-
-# target to build an object file
-driver/Camera.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Camera.cpp.o
-.PHONY : driver/Camera.cpp.o
-
-driver/Camera.i: driver/Camera.cpp.i
-
-.PHONY : driver/Camera.i
-
-# target to preprocess a source file
-driver/Camera.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Camera.cpp.i
-.PHONY : driver/Camera.cpp.i
-
-driver/Camera.s: driver/Camera.cpp.s
-
-.PHONY : driver/Camera.s
-
-# target to generate assembly for a file
-driver/Camera.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Camera.cpp.s
-.PHONY : driver/Camera.cpp.s
-
-driver/ExternalParamCalibrate.o: driver/ExternalParamCalibrate.cpp.o
-
-.PHONY : driver/ExternalParamCalibrate.o
+.PHONY : Camera.o
 
 # target to build an object file
-driver/ExternalParamCalibrate.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/ExternalParamCalibrate.cpp.o
-.PHONY : driver/ExternalParamCalibrate.cpp.o
+Camera.cpp.o:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/Camera.cpp.o
+.PHONY : Camera.cpp.o
 
-driver/ExternalParamCalibrate.i: driver/ExternalParamCalibrate.cpp.i
+Camera.i: Camera.cpp.i
 
-.PHONY : driver/ExternalParamCalibrate.i
+.PHONY : Camera.i
 
 # target to preprocess a source file
-driver/ExternalParamCalibrate.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/ExternalParamCalibrate.cpp.i
-.PHONY : driver/ExternalParamCalibrate.cpp.i
+Camera.cpp.i:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/Camera.cpp.i
+.PHONY : Camera.cpp.i
 
-driver/ExternalParamCalibrate.s: driver/ExternalParamCalibrate.cpp.s
+Camera.s: Camera.cpp.s
 
-.PHONY : driver/ExternalParamCalibrate.s
+.PHONY : Camera.s
 
 # target to generate assembly for a file
-driver/ExternalParamCalibrate.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/ExternalParamCalibrate.cpp.s
-.PHONY : driver/ExternalParamCalibrate.cpp.s
+Camera.cpp.s:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/Camera.cpp.s
+.PHONY : Camera.cpp.s
 
-driver/Hand.o: driver/Hand.cpp.o
+ExternalParamCalibrate.o: ExternalParamCalibrate.cpp.o
 
-.PHONY : driver/Hand.o
+.PHONY : ExternalParamCalibrate.o
 
 # target to build an object file
-driver/Hand.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Hand.cpp.o
-.PHONY : driver/Hand.cpp.o
+ExternalParamCalibrate.cpp.o:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/ExternalParamCalibrate.cpp.o
+.PHONY : ExternalParamCalibrate.cpp.o
 
-driver/Hand.i: driver/Hand.cpp.i
+ExternalParamCalibrate.i: ExternalParamCalibrate.cpp.i
 
-.PHONY : driver/Hand.i
+.PHONY : ExternalParamCalibrate.i
 
 # target to preprocess a source file
-driver/Hand.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Hand.cpp.i
-.PHONY : driver/Hand.cpp.i
+ExternalParamCalibrate.cpp.i:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/ExternalParamCalibrate.cpp.i
+.PHONY : ExternalParamCalibrate.cpp.i
 
-driver/Hand.s: driver/Hand.cpp.s
+ExternalParamCalibrate.s: ExternalParamCalibrate.cpp.s
 
-.PHONY : driver/Hand.s
+.PHONY : ExternalParamCalibrate.s
 
 # target to generate assembly for a file
-driver/Hand.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Hand.cpp.s
-.PHONY : driver/Hand.cpp.s
+ExternalParamCalibrate.cpp.s:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/ExternalParamCalibrate.cpp.s
+.PHONY : ExternalParamCalibrate.cpp.s
 
-driver/InternalParamCalibrate.o: driver/InternalParamCalibrate.cpp.o
+InternalParamCalibrate.o: InternalParamCalibrate.cpp.o
 
-.PHONY : driver/InternalParamCalibrate.o
+.PHONY : InternalParamCalibrate.o
 
 # target to build an object file
-driver/InternalParamCalibrate.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/InternalParamCalibrate.cpp.o
-.PHONY : driver/InternalParamCalibrate.cpp.o
+InternalParamCalibrate.cpp.o:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/InternalParamCalibrate.cpp.o
+.PHONY : InternalParamCalibrate.cpp.o
 
-driver/InternalParamCalibrate.i: driver/InternalParamCalibrate.cpp.i
+InternalParamCalibrate.i: InternalParamCalibrate.cpp.i
 
-.PHONY : driver/InternalParamCalibrate.i
+.PHONY : InternalParamCalibrate.i
 
 # target to preprocess a source file
-driver/InternalParamCalibrate.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/InternalParamCalibrate.cpp.i
-.PHONY : driver/InternalParamCalibrate.cpp.i
+InternalParamCalibrate.cpp.i:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/InternalParamCalibrate.cpp.i
+.PHONY : InternalParamCalibrate.cpp.i
 
-driver/InternalParamCalibrate.s: driver/InternalParamCalibrate.cpp.s
+InternalParamCalibrate.s: InternalParamCalibrate.cpp.s
 
-.PHONY : driver/InternalParamCalibrate.s
+.PHONY : InternalParamCalibrate.s
 
 # target to generate assembly for a file
-driver/InternalParamCalibrate.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/InternalParamCalibrate.cpp.s
-.PHONY : driver/InternalParamCalibrate.cpp.s
+InternalParamCalibrate.cpp.s:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/InternalParamCalibrate.cpp.s
+.PHONY : InternalParamCalibrate.cpp.s
 
-driver/Robot.o: driver/Robot.cpp.o
+Main.o: Main.cpp.o
 
-.PHONY : driver/Robot.o
+.PHONY : Main.o
 
 # target to build an object file
-driver/Robot.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Robot.cpp.o
-.PHONY : driver/Robot.cpp.o
+Main.cpp.o:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/Main.cpp.o
+.PHONY : Main.cpp.o
 
-driver/Robot.i: driver/Robot.cpp.i
+Main.i: Main.cpp.i
 
-.PHONY : driver/Robot.i
-
-# target to preprocess a source file
-driver/Robot.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Robot.cpp.i
-.PHONY : driver/Robot.cpp.i
-
-driver/Robot.s: driver/Robot.cpp.s
-
-.PHONY : driver/Robot.s
-
-# target to generate assembly for a file
-driver/Robot.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/driver/Robot.cpp.s
-.PHONY : driver/Robot.cpp.s
-
-proto-src/Grpc.grpc.pb.o: proto-src/Grpc.grpc.pb.cc.o
-
-.PHONY : proto-src/Grpc.grpc.pb.o
-
-# target to build an object file
-proto-src/Grpc.grpc.pb.cc.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/proto-src/Grpc.grpc.pb.cc.o
-.PHONY : proto-src/Grpc.grpc.pb.cc.o
-
-proto-src/Grpc.grpc.pb.i: proto-src/Grpc.grpc.pb.cc.i
-
-.PHONY : proto-src/Grpc.grpc.pb.i
+.PHONY : Main.i
 
 # target to preprocess a source file
-proto-src/Grpc.grpc.pb.cc.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/proto-src/Grpc.grpc.pb.cc.i
-.PHONY : proto-src/Grpc.grpc.pb.cc.i
+Main.cpp.i:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/Main.cpp.i
+.PHONY : Main.cpp.i
 
-proto-src/Grpc.grpc.pb.s: proto-src/Grpc.grpc.pb.cc.s
+Main.s: Main.cpp.s
 
-.PHONY : proto-src/Grpc.grpc.pb.s
-
-# target to generate assembly for a file
-proto-src/Grpc.grpc.pb.cc.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/proto-src/Grpc.grpc.pb.cc.s
-.PHONY : proto-src/Grpc.grpc.pb.cc.s
-
-proto-src/Grpc.pb.o: proto-src/Grpc.pb.cc.o
-
-.PHONY : proto-src/Grpc.pb.o
-
-# target to build an object file
-proto-src/Grpc.pb.cc.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/proto-src/Grpc.pb.cc.o
-.PHONY : proto-src/Grpc.pb.cc.o
-
-proto-src/Grpc.pb.i: proto-src/Grpc.pb.cc.i
-
-.PHONY : proto-src/Grpc.pb.i
-
-# target to preprocess a source file
-proto-src/Grpc.pb.cc.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/proto-src/Grpc.pb.cc.i
-.PHONY : proto-src/Grpc.pb.cc.i
-
-proto-src/Grpc.pb.s: proto-src/Grpc.pb.cc.s
-
-.PHONY : proto-src/Grpc.pb.s
+.PHONY : Main.s
 
 # target to generate assembly for a file
-proto-src/Grpc.pb.cc.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/proto-src/Grpc.pb.cc.s
-.PHONY : proto-src/Grpc.pb.cc.s
-
-user/GeometricalDetector.o: user/GeometricalDetector.cpp.o
-
-.PHONY : user/GeometricalDetector.o
-
-# target to build an object file
-user/GeometricalDetector.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/GeometricalDetector.cpp.o
-.PHONY : user/GeometricalDetector.cpp.o
-
-user/GeometricalDetector.i: user/GeometricalDetector.cpp.i
-
-.PHONY : user/GeometricalDetector.i
-
-# target to preprocess a source file
-user/GeometricalDetector.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/GeometricalDetector.cpp.i
-.PHONY : user/GeometricalDetector.cpp.i
-
-user/GeometricalDetector.s: user/GeometricalDetector.cpp.s
-
-.PHONY : user/GeometricalDetector.s
-
-# target to generate assembly for a file
-user/GeometricalDetector.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/GeometricalDetector.cpp.s
-.PHONY : user/GeometricalDetector.cpp.s
-
-user/GrpcClient.o: user/GrpcClient.cpp.o
-
-.PHONY : user/GrpcClient.o
-
-# target to build an object file
-user/GrpcClient.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/GrpcClient.cpp.o
-.PHONY : user/GrpcClient.cpp.o
-
-user/GrpcClient.i: user/GrpcClient.cpp.i
-
-.PHONY : user/GrpcClient.i
-
-# target to preprocess a source file
-user/GrpcClient.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/GrpcClient.cpp.i
-.PHONY : user/GrpcClient.cpp.i
-
-user/GrpcClient.s: user/GrpcClient.cpp.s
-
-.PHONY : user/GrpcClient.s
-
-# target to generate assembly for a file
-user/GrpcClient.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/GrpcClient.cpp.s
-.PHONY : user/GrpcClient.cpp.s
-
-user/Main.o: user/Main.cpp.o
-
-.PHONY : user/Main.o
-
-# target to build an object file
-user/Main.cpp.o:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/Main.cpp.o
-.PHONY : user/Main.cpp.o
-
-user/Main.i: user/Main.cpp.i
-
-.PHONY : user/Main.i
-
-# target to preprocess a source file
-user/Main.cpp.i:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/Main.cpp.i
-.PHONY : user/Main.cpp.i
-
-user/Main.s: user/Main.cpp.s
-
-.PHONY : user/Main.s
-
-# target to generate assembly for a file
-user/Main.cpp.s:
-	$(MAKE) -f CMakeFiles/rvision.dir/build.make CMakeFiles/rvision.dir/user/Main.cpp.s
-.PHONY : user/Main.cpp.s
+Main.cpp.s:
+	$(MAKE) -f CMakeFiles/calibrate.dir/build.make CMakeFiles/calibrate.dir/Main.cpp.s
+.PHONY : Main.cpp.s
 
 # Help Target
 help:
@@ -400,38 +238,20 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... rvision"
+	@echo "... calibrate"
 	@echo "... edit_cache"
-	@echo "... driver/Camera.o"
-	@echo "... driver/Camera.i"
-	@echo "... driver/Camera.s"
-	@echo "... driver/ExternalParamCalibrate.o"
-	@echo "... driver/ExternalParamCalibrate.i"
-	@echo "... driver/ExternalParamCalibrate.s"
-	@echo "... driver/Hand.o"
-	@echo "... driver/Hand.i"
-	@echo "... driver/Hand.s"
-	@echo "... driver/InternalParamCalibrate.o"
-	@echo "... driver/InternalParamCalibrate.i"
-	@echo "... driver/InternalParamCalibrate.s"
-	@echo "... driver/Robot.o"
-	@echo "... driver/Robot.i"
-	@echo "... driver/Robot.s"
-	@echo "... proto-src/Grpc.grpc.pb.o"
-	@echo "... proto-src/Grpc.grpc.pb.i"
-	@echo "... proto-src/Grpc.grpc.pb.s"
-	@echo "... proto-src/Grpc.pb.o"
-	@echo "... proto-src/Grpc.pb.i"
-	@echo "... proto-src/Grpc.pb.s"
-	@echo "... user/GeometricalDetector.o"
-	@echo "... user/GeometricalDetector.i"
-	@echo "... user/GeometricalDetector.s"
-	@echo "... user/GrpcClient.o"
-	@echo "... user/GrpcClient.i"
-	@echo "... user/GrpcClient.s"
-	@echo "... user/Main.o"
-	@echo "... user/Main.i"
-	@echo "... user/Main.s"
+	@echo "... Camera.o"
+	@echo "... Camera.i"
+	@echo "... Camera.s"
+	@echo "... ExternalParamCalibrate.o"
+	@echo "... ExternalParamCalibrate.i"
+	@echo "... ExternalParamCalibrate.s"
+	@echo "... InternalParamCalibrate.o"
+	@echo "... InternalParamCalibrate.i"
+	@echo "... InternalParamCalibrate.s"
+	@echo "... Main.o"
+	@echo "... Main.i"
+	@echo "... Main.s"
 .PHONY : help
 
 

@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/paul/work/calibrate/Camera.h
+opencv2/opencv.hpp
+-
+opencv2/imgproc.hpp
+/home/paul/work/calibrate/opencv2/imgproc.hpp
+opencv2/highgui.hpp
+/home/paul/work/calibrate/opencv2/highgui.hpp
+InternalParamCalibrate.h
+/home/paul/work/calibrate/InternalParamCalibrate.h
+ExternalParamCalibrate.h
+/home/paul/work/calibrate/ExternalParamCalibrate.h
+
+/home/paul/work/calibrate/ExternalParamCalibrate.h
+opencv2/opencv.hpp
+-
+opencv2/imgproc.hpp
+/home/paul/work/calibrate/opencv2/imgproc.hpp
+opencv2/highgui.hpp
+/home/paul/work/calibrate/opencv2/highgui.hpp
+
+/home/paul/work/calibrate/InternalParamCalibrate.h
+opencv2/opencv.hpp
+-
+opencv2/imgproc.hpp
+/home/paul/work/calibrate/opencv2/imgproc.hpp
+opencv2/highgui.hpp
+/home/paul/work/calibrate/opencv2/highgui.hpp
+
+/home/paul/work/calibrate/Main.cpp
+Camera.h
+/home/paul/work/calibrate/Camera.h
+

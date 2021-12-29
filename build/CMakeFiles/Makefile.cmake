@@ -11,8 +11,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.15.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.15.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.15.1/CMakeSystem.cmake"
-  "../cmake/FindGRPC.cmake"
-  "../cmake/FindProtobuf.cmake"
   "/usr/local/share/OpenCV/OpenCVConfig-version.cmake"
   "/usr/local/share/OpenCV/OpenCVConfig.cmake"
   "/usr/local/share/OpenCV/OpenCVModules-release.cmake"
@@ -53,5 +51,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/rvision.dir/DependInfo.cmake"
+  "CMakeFiles/calibrate.dir/DependInfo.cmake"
   )

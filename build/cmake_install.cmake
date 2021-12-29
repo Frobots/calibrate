@@ -1,4 +1,4 @@
-# Install script for directory: /home/paul/work/rvision
+# Install script for directory: /home/paul/work/calibrate
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/paul/work/rvision/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/paul/work/calibrate/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
